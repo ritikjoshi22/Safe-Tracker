@@ -1,9 +1,32 @@
-const socket = io();
+let map; // Declare map in the outer scope
+
+// Check if geolocation is available in the browser
 if (navigator.geolocation) {
-  navigator.geolocation.watchPosition(
+  navigator.geolocation.getCurrentPosition(
     (position) => {
       const { latitude, longitude } = position.coords;
-      socket.emit("send-location", { latitude, longitude });
+
+      // Initialize the map with the user's location
+      map = L.map("map").setView([latitude, longitude], 16);
+
+      // Add a tile layer to the map (OpenStreetMap)
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "Safe Track",
+      }).addTo(map);
+      googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+});
+
+      googleStreets.addTo(map);
+       // Function to find nearby hospitals
+       findNearbyHospitals(latitude, longitude, 5000); // 500 meters radius
+      // Add a marker for the user's current location
+      L.marker([latitude, longitude])
+        .addTo(map)
+        .bindPopup("You are here!")
+        .openPopup();
+
     },
     (error) => {
       console.error(error);
@@ -14,28 +37,22 @@ if (navigator.geolocation) {
       maximumAge: 0,
     }
   );
+} else {
+  console.error("Geolocation is not supported by this browser.");
 }
 
-const map = L.map("map").setView([0, 0], 18);
+// Function to fetch nearby hospitals using Overpass API
+function findNearbyHospitals(lat, lng, radius) {
+  const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];node(around:${radius},${lat},${lng})[amenity=hospital];out;`;
 
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "Safe Track",
-}).addTo(map);
+  fetch(overpassUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      data.elements.forEach((element) => {
+        const hospitalName = element.tags.name || "Unnamed Hospital";
+        console.log("Nearby Hospital:", hospitalName);
 
-const markers = {};
-
-socket.on("receive-location", (data) => {
-  const { id, latitude, longitude } = data;
-  map.setView([latitude, longitude]);
-  if (markers[id]) {
-    markers[id].setLatLng([latitude, longitude]);
-  } else {
-    markers[id] = L.marker([latitude, longitude]).addTo(map);
-  }
-});
-socket.on("user-disconnected", (id) => {
-  if (markers[id]) {
-    map.removeLayer(markers[id]);
-    delete markers[id];
-  }
-});
+      });
+    })
+    .catch((error) => console.error("Error fetching hospital data:", error));
+}
