@@ -1,7 +1,55 @@
-// public/js/script.js
 let map;
 let userMarker;
 const entityMarkers = {}; // Store markers for each entity by ID
+
+// Function to calculate distance between two points (Haversine formula)
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+// Function to find and display the nearest entity
+function findNearestEntity() {
+    if (!userMarker) {
+        console.log("User location not set.");
+        return;
+    }
+
+    let nearestEntity = null;
+    let minDistance = Infinity;
+
+    const userLatLng = userMarker.getLatLng();
+
+    Object.entries(entityMarkers).forEach(([id, marker]) => {
+        const entityLatLng = marker.getLatLng();
+        const distance = calculateDistance(
+            userLatLng.lat,
+            userLatLng.lng,
+            entityLatLng.lat,
+            entityLatLng.lng
+        );
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            nearestEntity = id;
+        }
+    });
+
+    if (nearestEntity) {
+        console.log("Nearest entity ID:", nearestEntity);
+    } else {
+        console.log("No entities found.");
+    }
+}
+
+// Event listener for the "Scan" button
+document.getElementById("scanButton").addEventListener("click", findNearestEntity);
 
 // Check if geolocation is available in the browser
 if (navigator.geolocation) {
@@ -29,9 +77,9 @@ if (navigator.geolocation) {
       // Receive live location updates from WebSocket
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        // Check if the received location data corresponds to an entity type (police, ambulance, etc.)
         const iconType = data.type; // e.g., "police" or "ambulance"
         const id = data.id;
+
         // Create or update the marker for this entity on the map
         if (entityMarkers[id]) {
           entityMarkers[id].setLatLng([data.latitude, data.longitude]);
@@ -56,26 +104,6 @@ if (navigator.geolocation) {
   );
 } else {
   console.error("Geolocation is not supported by this browser.");
-}
-
-// Function to update or create entity markers on the map
-function updateEntityMarker(data) {
-  const { id, latitude, longitude, serviceType } = data;
-
-  // If the entity already has a marker, just update its position
-  if (entityMarkers[id]) {
-    entityMarkers[id].setLatLng([latitude, longitude]);
-  } else {
-    // Create a new marker if it doesn't exist
-    const iconType = serviceType; // e.g., "ambulance", "police", etc.
-    const marker = L.marker([latitude, longitude], {
-      icon: createCustomIcon(iconType),
-    })
-      .addTo(map)
-      .bindPopup(`${serviceType} - Live location`);
-
-    entityMarkers[id] = marker; // Store marker by entity ID
-  }
 }
 
 // Function to create custom icons based on service type

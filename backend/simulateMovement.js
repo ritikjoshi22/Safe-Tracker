@@ -7,9 +7,12 @@ mongoose.connect("mongodb://localhost:27017/safe_track");
 
 // Establish WebSocket connection
 const ws = new WebSocket("ws://localhost:3000");
+ws.on("error", (error) => {
+  console.error("WebSocket error in simulation:", error);
+});
 
 // Generate random coordinates near a base location
-function getRandomCoordinates(baseLat, baseLng, radius = 0.01) {
+function getRandomCoordinates(baseLat, baseLng, radius = 0.1) {
   const randomLat = baseLat + (Math.random() - 0.5) * radius;
   const randomLng = baseLng + (Math.random() - 0.5) * radius;
   return { latitude: randomLat, longitude: randomLng };
@@ -31,10 +34,12 @@ async function simulateMovement(entityId, type) {
     // Send the updated location to WebSocket clients
     const locationData = { id: entityId, type, latitude: newCoords.latitude, longitude: newCoords.longitude };
     ws.send(JSON.stringify(locationData));
-  }, 2000); // Adjust interval as needed
+  }, 10000); // Adjust interval as needed
 }
 
 // Run simulation for each entity
 
 const entityId = "671e4ff3c4ef15ae8c918979";
+const entityId2 = "671e4ff3c4ef15ae8c91897c";
 simulateMovement(entityId, "fire_brigade");
+simulateMovement(entityId2, "fire_brigade");

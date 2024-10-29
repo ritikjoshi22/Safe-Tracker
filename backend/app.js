@@ -29,7 +29,8 @@ wss.on("connection", (ws) => {
 
   // Listen for location updates from entities
   ws.on("message", async (data) => {
-    const locationData = JSON.parse(data);
+    try {
+      const locationData = JSON.parse(data);
     
     // Update location in the database
     await Employee.findByIdAndUpdate(
@@ -39,11 +40,15 @@ wss.on("connection", (ws) => {
     );
 
     // Emit updated location data to all connected clients
-    wss.clients.forEach((client) => {
+    wss.clients.forEach(async (client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(locationData));
+        await client.send(JSON.stringify(locationData));
       }
     });
+    } catch (error) {
+      console.error("Error handling WebSocket message:", error);
+    }
+    
   });
 });
 
