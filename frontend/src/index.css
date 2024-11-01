@@ -57,6 +57,7 @@ a.header-link,
   border-radius: 2px;
   color: white !important;
   font-weight: bold;
+  padding-right: 100px;
 }
 
 a.header-link:hover,
