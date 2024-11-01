@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Store } from "./Store";
 import { useContext, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
+import HomePage from "./pages/HomePage"
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function App() {

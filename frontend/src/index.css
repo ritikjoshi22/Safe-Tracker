@@ -121,3 +121,9 @@ a.header-link:hover,
 button.side-navbar-user:hover {
   color: white;
 }
+.leaflet-container {
+  height: 500px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
