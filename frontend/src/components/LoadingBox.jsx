@@ -1,3 +1,4 @@
+
 import Spinner from "react-bootstrap/Spinner";
 
 export const LoadingBox = () => {

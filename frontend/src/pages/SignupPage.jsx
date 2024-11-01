@@ -5,8 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSignupMutation } from '../hooks/userHooks'
 import { Store } from '../Store'
-import { ApiError } from '../types/ApiError'
-import { getError } from '../utils'
+import { getError } from '../../utils'
 
 export default function SignupPage() {
     const navigate = useNavigate()
@@ -24,7 +23,7 @@ export default function SignupPage() {
   // @ts-ignore
     const { mutateAsync: signup, isPending } = useSignupMutation()
   
-    const submitHandler = async (e: React.SyntheticEvent) => {
+    const submitHandler = async (e) => {
       e.preventDefault()
       if (password !== confirmPassword) {
         toast.error('Passwords do not match')
@@ -40,7 +39,7 @@ export default function SignupPage() {
         localStorage.setItem('userInfo', JSON.stringify(data))
         navigate(redirect || '/')
       } catch (err) {
-        toast.error(getError(err as ApiError))
+        toast.error(getError(err))
       }
     }
   

@@ -8,14 +8,14 @@ import {
 } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import "bootstrap/dist/css/bootstrap.min.css";
-import App from "./App.tsx";
+import App from "./App.jsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { StoreProvider } from "./Store.tsx";
-import SigninPage from "./pages/SigninPage.tsx";
-import SignupPage from "./pages/SignupPage.tsx";
-import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import { StoreProvider } from "./Store.jsx";
+import SigninPage from "./pages/SigninPage.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +29,7 @@ const router = createBrowserRouter(
 
 const queryClient = new QueryClient();
 
-createRoot(document.getElementById("root") as HTMLElement).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <StoreProvider>
       <HelmetProvider>

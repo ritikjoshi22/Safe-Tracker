@@ -6,8 +6,7 @@ import { toast } from 'react-toastify'
 import {LoadingBox} from '../components/LoadingBox'
 import { useSigninMutation } from '../hooks/userHooks'
 import { Store } from '../Store'
-import { ApiError } from '../types/ApiError'
-import { getError } from '../utils'
+import { getError } from '../../utils'
 
 export default function SigninPage() {
   const navigate = useNavigate()
@@ -23,7 +22,7 @@ export default function SigninPage() {
 
   const { mutateAsync: signin, isPending } = useSigninMutation()
 
-  const submitHandler = async (e: React.SyntheticEvent) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     try {
       const data = await signin({
@@ -34,7 +33,7 @@ export default function SigninPage() {
       localStorage.setItem('userInfo', JSON.stringify(data))
       navigate(redirect)
     } catch (err) {
-      toast.error(getError(err as ApiError))
+      toast.error(getError(err))
     }
   }
 
