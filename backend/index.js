@@ -4,8 +4,16 @@ const path = require("path");
 const http = require("http");
 const WebSocket = require("ws");
 const Employee = require("./model/employeeModel");
-
+const { userRouter } = require("./routers/userRouters")
+const cors = require("cors");
 const app = express();
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:5173'],
+  })
+)
+app.use(express.json()); // Middleware to parse JSON data
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
@@ -22,6 +30,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
   res.render("index");
 });
+app.use('/api/users',userRouter)
 
 // WebSocket connection
 wss.on("connection", (ws) => {
