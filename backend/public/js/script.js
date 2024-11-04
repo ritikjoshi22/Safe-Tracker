@@ -108,13 +108,14 @@ if (navigator.geolocation) {
 
 // Function to create custom icons based on service type
 function createCustomIcon(type) {
-  const iconUrl =
+  const iconUrl = `http://localhost:3000/images/${
     {
-      user: "/images/pin-map.png",
-      ambulance: "/images/ambulance.png",
-      police: "/images/police.png",
-      fire_brigade: "/images/fire-brigade.png",
+      user: "pin-map.png",
+      ambulance: "ambulance.png",
+      police: "police.png",
+      fire_brigade: "fire-brigade.png",
     }[type]
+  }`;
 
   return L.icon({
     iconUrl: iconUrl,

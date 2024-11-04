@@ -6,7 +6,8 @@ const initialState = {
     : null,
   mode: localStorage.getItem("mode")
     ? localStorage.getItem("mode")
-    : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+    : window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light",
 };
@@ -18,10 +19,13 @@ function reducer(state, action) {
       return { ...state, mode: state.mode === "dark" ? "light" : "dark" };
     case "USER_SIGNIN":
       return { ...state, userInfo: action.payload };
+    case "EMPLOYEE_SIGNIN":
+      return { ...state, userInfo: action.payload };
     case "USER_SIGNOUT":
       return {
         mode:
-          window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
             : "light",
       };

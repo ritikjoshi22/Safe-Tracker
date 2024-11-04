@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import toast from "react-hot-toast";
 import { useSignupMutation } from '../hooks/userHooks'
 import { Store } from '../Store'
 import { getError } from '../../utils'
@@ -52,7 +52,7 @@ export default function SignupPage() {
     return (
       <Container className="small-container">
         <Helmet>
-          <title>Sign Up</title>
+          <title>Beyond Infinity</title>
         </Helmet>
         <h1 className="my-3">Sign Up</h1>
         <Form onSubmit={submitHandler}>

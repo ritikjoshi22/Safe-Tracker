@@ -1,28 +1,29 @@
 const mongoose = require("mongoose");
 
 const employeeSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-  phoneNumber: String,
-  address: String,
-  serviceType: {
+  name: {
     type: String,
-    enum: ["ambulance", "police", "fire_brigade"], // Options for different services
     required: true,
   },
-  location: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      default: "Point",
-    },
-    coordinates: {
-      type: [Number], // [longitude, latitude]
-      required: true,
-    },
+  password: {
+    type: String,
+    required: true,
   },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  address:  {
+    type: String,
+    required: true,
+  },
+  serviceType: {
+    type: String,
+    enum: ["ambulance", "police", "fire_brigade"],
+    required: true,
+  },
+}, {
+  timestamps: true, // This will add createdAt and updatedAt timestamps
 });
-
-employeeSchema.index({ location: "2dsphere" }); // Enable geospatial indexing
 
 module.exports = mongoose.model("Employee", employeeSchema);

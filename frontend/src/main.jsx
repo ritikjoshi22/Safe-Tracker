@@ -17,6 +17,9 @@ import HomePage from "./pages/HomePage.jsx";
 import SigninPage from "./pages/SigninPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AboutUs from "./pages/AboutusPage.jsx";
+import EmployeeSignup from "./pages/SignupEmployeePage.jsx"
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +27,8 @@ const router = createBrowserRouter(
       <Route index={true} element={<HomePage />} />
       <Route path="/signin" element={<SigninPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/signup-employee" element={<EmployeeSignup />} />
       <Route path="" element={<ProtectedRoute />}></Route>
     </Route>
   )
@@ -38,6 +43,7 @@ createRoot(document.getElementById("root")).render(
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
           <ReactQueryDevtools initialIsOpen={false} />
+          <Toaster />
         </QueryClientProvider>
       </HelmetProvider>
     </StoreProvider>

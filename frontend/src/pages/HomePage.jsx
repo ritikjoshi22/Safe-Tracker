@@ -54,11 +54,11 @@ const HomePage = () => {
     }
   }, []);
 
-  return (
+  return (<>
+    <Helmet>
+          <title>Beyond Infinity</title>
+        </Helmet>
     <Row>
-      <Helmet>
-        <title>Beyond Infinity♾️</title>
-      </Helmet>
       {userLocation && (
         <MapContainer center={[userLocation.latitude, userLocation.longitude]} zoom={13} style={{ height: "500px", width: "100%" }}>
           <TileLayer
@@ -76,6 +76,7 @@ const HomePage = () => {
         </MapContainer>
       )}
     </Row>
+  </>
   );
 };
 

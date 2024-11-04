@@ -1,129 +1,318 @@
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.product-image {
-  max-width: 400px;
-  width: 100%;
+body{
+  font-family: "Roboto Condensed", sans-serif;
 }
 
-.rating span {
-  color: #ffc000;
-}
-
-img.large {
-  max-width: 100%;
-}
-img.thumbnail {
+/* navbar */
+.navbar{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   height: 80px;
+  font-size: 1.2rem;
+  background: rgba(11, 11, 11, 0.8);
+  z-index: 1;
 }
 
-.small-container {
-  max-width: 600px;
-}
-
-.checkout-steps > div {
-  border-bottom: 0.2rem solid #a0a0a0;
-  color: #a0a0a0;
-}
-.checkout-steps > div.active {
-  border-bottom: 0.2rem solid #f08000;
-  color: #f08000;
-}
-
-.dropdown-menu[data-bs-popper] {
-  left: auto;
-  right: 0;
-}
-.btn-primary,
-.btn-outline-primary {
+.logo span{
   color: white;
 }
 
-/* header */
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.8rem;
-}
 
-a.header-link,
-.header-link > a {
-  border: 1px rgb(33, 37, 41) solid;
-  border-radius: 2px;
-  color: white !important;
-  font-weight: bold;
-  padding-right: 100px;
-}
-
-a.header-link:hover,
-.header-link > a:hover {
+.nav-element{
+  text-decoration: none;
   color: white;
-  border: 1px white solid;
+  padding: 10px 16px;
+  border-radius: 5px;
+  margin: 0px 12px;
+  cursor: pointer;
+}
+.nav-element:hover{
+  background-color: rgb(170, 167, 167);
 }
 
-.header .dropdown-menu,
-.header .dropdown-item {
-  color: black !important;
+.sign-button {
+  padding: 12px 24px;
+  border-radius: 20px;
+  background-color: rgb(240, 86, 30);
+  color: white;
+  border: none;
+  margin: 0px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  filter: none; /* Ensure the button is not affected by grayscale */
+  position: relative; /* Make sure it stays above the hero-image */
+  z-index: 1; 
+}
+
+ /* introduction section */
+.introduction-section{
+  margin: 40px 80px ;
+}
+
+.introduction-title,.team-title{
+  font-size: 3rem;
+  color: rgb(2, 2, 69);
+}
+
+.introduction-title span, .team-title span,.logo,.signup-above-information h2 {
+  color: rgb(245, 62, 62);
+}
+
+.about-btn,.team-btn{
+  padding: 16px 30px;
+  background-color: white;
+  font-size: 1.6rem;
+  border-radius: 20px;
+  border-color: rgb(215, 212, 212);
+  font-weight: 700;
+  box-shadow: 5px 5px 5px rgb(211, 209, 209);
+  color: rgb(210, 68, 68);
+}
+
+.introduction-contents{
+  font-size: 1.4rem;
+  margin: 20px 0px ;
+}
+
+.introduction-container{
+  display: flex;
+  align-items: center;
+}
+
+.introduction-container img{
+  width: 520px;
+}
+ 
+
+/* features */
+
+.features{
+  display: flex;
+  justify-content: space-between;
+}
+
+.feature{
+  border: 1px solid rgb(222, 220, 220);
+  max-width: 360px;
+  padding: 10px;
+  border-radius: 16px;
+  box-shadow: 5px 5px 5px rgb(194, 193, 193);
+}
+
+.feature-container img{
+  width: 50px;
+  height: 50px;
+  margin-right: 1.4rem;
+}
+
+.feature-container{
+  display: flex;
+  align-items: center;
+}
+
+
+/* team */
+.team-btn{
+  width: 200px;
+}
+
+.teams{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background-color: rgb(245, 239, 239);
+  padding-top: 30px;
+}
+
+.teams p{
+  max-width: 500px;
+  text-align: center;
+  color: rgb(101, 98, 98);
+}
+
+/* member */
+.team-members{
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+}
+
+.member-container{
+  position: relative;
+  height: 340px;
+  width: 240px;
+  border-radius: 10px;
   background-color: white;
 }
-.header .dropdown-item a:hover {
-  border: 1px rgb(33, 37, 41) solid;
-}
-.sub-header {
-  background-color: #232f3e;
-}
 
-.cart-badge {
-  position: absolute;
-  color: #f08000;
-  font-weight: bold;
-  margin-left: 16px;
-  margin-top: -3px;
-}
-
-/* Sidebar */
-.side-navbar-backdrop {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
-}
-
-.side-navbar {
-  width: 340px;
-  height: 100%;
-  position: absolute;
-  left: -350px;
-  background-color: #f5f5f5;
-  transition: 0.5s;
-  z-index: 2;
-}
-
-.active-nav {
-  left: 0;
-}
-
-.side-navbar-user {
-  background-color: #232f3e !important;
-  color: white;
-  font-weight: bold;
-}
-
-button.side-navbar-user:hover {
-  color: white;
-}
-.leaflet-container {
-  height: 500px;
+.member-container img{
+  height: 65%;
   width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.member-content{
+  height: 35%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  padding-bottom: 30px;
+}
+
+.member-details{
+  position: absolute;
+  top: 190px;
+  left: 55px;
+  background-color: rgb(249, 65, 65);
+  color: white;
+  padding: 12px 28px;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.media-btn{
+  padding:  6px 8px;
+  font-size: 1rem;
+  border-radius: 50%;
+  border: 2px solid grey;
+}
+
+/* user-signup */
+.signup-page{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(231, 226, 225);
+}
+
+.user-registration-form{
+  width: 500px;
+  height: 620px;
+  display: flex;
+  background-color: white;
+  gap: 40px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgb(155, 153, 153);
+}
+
+
+.signup-information{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 40px 100px;
+}
+
+.signup-above-information{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-size: 1.2rem;
+}
+
+.signup-information h2{
+  font-size: 2.4rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.signup-media{
+  display: flex;
+  gap: 20px;
+  color: rgb(93, 92, 92);
+}
+
+.media-container{
+  border: 1px solid grey;
+  border-radius: 50%;
+  padding: 4px 8px;
+  transition: .2s all ease-in-out;
+  cursor: pointer;
+}
+
+.signup-facebook{
+  padding:4px 10px ;
+}
+
+.media-container:hover{
+  background-color: rgb(28, 109, 174);
+  color: white;
+  border:none;
+}
+
+.signup-information p{
+  color: rgb(72, 67, 67);
+  margin-bottom: 20px;
+}
+
+.field-container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 16px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  width: 308px;
+  height: 50px;
+  margin-bottom: 8px;
+}
+
+.signup-element{
+  color: grey;
+}
+
+.input-field{
+  margin-bottom: 10px;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  width: 92%;
+  padding-left: 10px;
+  margin-top: 12px;
+}
+
+.submit-btn-container{
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn{
+  width: 308px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgb(245, 62, 62);;
+  color: white;
+  border: none;
+  outline: none;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.bottom-signup-information{
+  margin-top: 30px;
+  text-align: center;
+}
+
+.signin-span{
+  color: rgb(242, 32, 32);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.signup-above-information span{
+  color: rgb(2, 2, 69);
 }

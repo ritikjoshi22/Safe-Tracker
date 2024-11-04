@@ -4,7 +4,6 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Store } from "./Store";
 import { useContext, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import HomePage from "./pages/HomePage"
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function App() {
@@ -42,19 +41,25 @@ function App() {
               <LinkContainer to="/" className="header-link border-0">
                 <Navbar.Brand>Beyond Infinity♾️</Navbar.Brand>
               </LinkContainer>
+              <div className="nav-elements-container">
+                  <Link to="/" className="nav-element">
+                    {" "}
+                    HOME
+                  </Link>
+                  <Link to="/aboutus" className="nav-element">
+                    {" "}
+                    ABOUT US
+                  </Link>
+                  <Link to="/police" className="nav-element">
+                    {" "}
+                    POLICE
+                  </Link>
+                  <Link to="/contactus" className="nav-element">
+                    {" "}
+                    CONTACT US
+                  </Link>
+                </div>
               <Navbar.Collapse>
-                <Link to="/ambulance" className="w-50 text-center nav-link header-link">
-                  Ambulance
-                </Link>
-                <Link to="/police" className="w-50 text-center	nav-link header-link">
-                  Police
-                </Link>
-                <Link to="/fireBrigade" className="w-50 text-center nav-link header-link">
-                  Fire Brigade
-                </Link>
-                <Link to="/family" className="w-50 text-center	nav-link header-link">
-                  Family
-                </Link>
                 <Nav className="w-100 justify-content-end">
                   <Link
                     to="#"

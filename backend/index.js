@@ -5,6 +5,7 @@ const WebSocket = require("ws");
 const Employee = require("./model/employeeModel");
 const { userRouter } = require("./routers/userRouters");
 const cors = require("cors");
+const {employeeRouter} = require("./routers/employeeRouters")
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(
     origin: ['http://localhost:5173'],
   })
 );
+app.use('/images', express.static('public/images'));
 
 // Middleware to parse JSON data
 app.use(express.json());
@@ -30,6 +32,7 @@ mongoose.connect("mongodb://localhost:27017/safe_track")
 
 // Define API routes
 app.use('/api/users', userRouter);
+app.use('/api/employees', employeeRouter);
 
 // WebSocket connection for live location updates
 wss.on("connection", (ws) => {
@@ -42,7 +45,7 @@ wss.on("connection", (ws) => {
 
       // Update location in the database
       await Employee.findByIdAndUpdate(
-        locationData.id,
+        locationData._id,
         { location: { type: "Point", coordinates: [locationData.longitude, locationData.latitude] } },
         { new: true }
       );
