@@ -4,6 +4,9 @@ const initialState = {
   userInfo: localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
     : null,
+  empInfo: localStorage.getItem("empInfo")
+    ? JSON.parse(localStorage.getItem("empInfo"))
+    : null,
   mode: localStorage.getItem("mode")
     ? localStorage.getItem("mode")
     : window.matchMedia &&
@@ -20,7 +23,7 @@ function reducer(state, action) {
     case "USER_SIGNIN":
       return { ...state, userInfo: action.payload };
     case "EMPLOYEE_SIGNIN":
-      return { ...state, userInfo: action.payload };
+      return { ...state, empInfo: action.payload };
     case "USER_SIGNOUT":
       return {
         mode:
@@ -29,6 +32,14 @@ function reducer(state, action) {
             ? "dark"
             : "light",
       };
+      case "EMPLOYEE_SIGNOUT":
+        return {
+          mode:
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light",
+        };
     default:
       return state;
   }

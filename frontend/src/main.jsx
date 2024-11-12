@@ -19,6 +19,7 @@ import SignupPage from "./pages/SignupPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AboutUs from "./pages/AboutusPage.jsx";
 import EmployeeSignup from "./pages/SignupEmployeePage.jsx"
+import HomePageEmp from "./pages/HomePageEmp.jsx";
 import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/signup-employee" element={<EmployeeSignup />} />
+      <Route path="/homepage-emp" element={<HomePageEmp />} />/
       <Route path="" element={<ProtectedRoute />}></Route>
     </Route>
   )

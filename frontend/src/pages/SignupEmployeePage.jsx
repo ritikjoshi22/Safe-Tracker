@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
 import { Store } from '../Store';
-import { getError } from '../../utils';
+import { getError } from '../utils';
 import { useAddEmployeeMutation } from '../hooks/employeeHooks';
 
 export default function SignupPage() {
@@ -15,13 +15,14 @@ export default function SignupPage() {
 
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [serviceType, setServiceType] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const { state, dispatch } = useContext(Store);
-  const { userInfo } = state;
+  const { empInfo } = state;
 
   const { mutateAsync: signup, isPending } = useAddEmployeeMutation();
 
@@ -35,12 +36,13 @@ export default function SignupPage() {
       const data = await signup({
         name,
         phoneNumber,
+        email,
         address,
         serviceType,
         password,
       });
       dispatch({ type: 'EMPLOYEE_SIGNIN', payload: data });
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      localStorage.setItem('empInfo', JSON.stringify(data));
       toast.success("Signup Successful!")
       navigate(redirect || '/');
     } catch (err) {
@@ -49,10 +51,10 @@ export default function SignupPage() {
   };
 
   useEffect(() => {
-    if (userInfo) {
+    if (empInfo) {
       navigate(redirect);
     }
-  }, [navigate, redirect, userInfo]);
+  }, [navigate, redirect, empInfo]);
 
   return (
     <Container className="small-container">
@@ -96,6 +98,15 @@ export default function SignupPage() {
             <option value="fire_brigade">Fire Brigade</option>
           </Form.Select>
         </Form.Group>
+
+        <Form.Group className="mb-3" controlId="email">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
 
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>

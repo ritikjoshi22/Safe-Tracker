@@ -1,5 +1,5 @@
 const express = require("express");
-const asyncHandler =  require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const Employee = require("../model/employeeModel");
 const { generateToken } = require("../utils");
@@ -7,29 +7,57 @@ const { generateToken } = require("../utils");
 const employeeRouter = express.Router();
 
 employeeRouter.post(
-  '/add',
+  "/add",
   asyncHandler(async (req, res) => {
-    const { name, phoneNumber, address, serviceType, password } = req.body;
-    
-    if (!password) {
-      res.status(400).send({ message: 'Password is required' });
+    const { name, phoneNumber, address, email, serviceType, password } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !password) {
+      res.status(400).send({ message: "Name, Email, and Password are required" });
       return;
     }
 
+    // Check for existing employee
+    const existingEmployee = await Employee.findOne({ email });
+    if (existingEmployee) {
+      res.status(400).send({ message: "Employee with this email already exists" });
+      return;
+    }
+
+    // Hash the password
     const hashedPassword = bcrypt.hashSync(password, 10);
-    console.log(req.body.password); // This should show the password or reveal if it's undefined
     const newEmployee = new Employee({
       name,
       phoneNumber,
+      email,
       address,
       serviceType,
       password: hashedPassword,
     });
+    console.log("hello");
 
+    // Save new employee
     const employee = await newEmployee.save();
-    res.send(employee);
+    res.status(201).send(employee);
   })
 );
 
-  
-module.exports = {employeeRouter}
+employeeRouter.post(
+  "/signin",
+  asyncHandler(async (req, res) => {
+    const emp = await Employee.findOne({ email: req.body.email });
+    if (emp && bcrypt.compareSync(req.body.password, emp.password)) {
+      res.json({
+        _id: emp._id,
+        name: emp.name,
+        email: emp.email,
+        serviceType: emp.serviceType,
+        token: generateToken(emp),
+      });
+    } else {
+      res.status(401).send({ message: "Invalid email or password" });
+    }
+  })
+);
+
+module.exports = { employeeRouter };

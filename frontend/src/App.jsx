@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function App() {
   const {
-    state: { mode, userInfo },
+    state: { mode, userInfo, empInfo },
     dispatch,
   } = useContext(Store);
   useEffect(() => {
@@ -21,11 +21,16 @@ function App() {
   const signoutHandler = () => {
     dispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
-    localStorage.removeItem("cartItems");
-    localStorage.removeItem("shippingAddress");
-    localStorage.removeItem("paymentMethod");
+    localStorage.removeItem("empInfo");
     window.location.href = "/signin";
   };
+  const empSignoutHandler = () => {
+    dispatch({ type: "EMPLOYEE_SIGNOUT" });
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("empInfo");
+    window.location.href = "/signin";
+  };
+
   return (
     <>
       <div className="d-flex flex-column vh-100">
@@ -42,23 +47,23 @@ function App() {
                 <Navbar.Brand>Beyond Infinity♾️</Navbar.Brand>
               </LinkContainer>
               <div className="nav-elements-container">
-                  <Link to="/" className="nav-element">
-                    {" "}
-                    HOME
-                  </Link>
-                  <Link to="/aboutus" className="nav-element">
-                    {" "}
-                    ABOUT US
-                  </Link>
-                  <Link to="/police" className="nav-element">
-                    {" "}
-                    POLICE
-                  </Link>
-                  <Link to="/contactus" className="nav-element">
-                    {" "}
-                    CONTACT US
-                  </Link>
-                </div>
+                <Link to="/" className="nav-element">
+                  {" "}
+                  HOME
+                </Link>
+                <Link to="/aboutus" className="nav-element">
+                  {" "}
+                  ABOUT US
+                </Link>
+                <Link to="/police" className="nav-element">
+                  {" "}
+                  POLICE
+                </Link>
+                <Link to="/contactus" className="nav-element">
+                  {" "}
+                  CONTACT US
+                </Link>
+              </div>
               <Navbar.Collapse>
                 <Nav className="w-100 justify-content-end">
                   <Link
@@ -74,29 +79,29 @@ function App() {
                     {mode === "light" ? "Light" : "Dark"}
                   </Link>
 
-                  {userInfo ? (
+                  {userInfo || empInfo ? (
                     <NavDropdown
                       className="header-link"
-                      title={`Hello, ${userInfo.name}`}
+                      title={`Hello, ${
+                        userInfo ? userInfo.name : empInfo.name
+                      }`}
                     >
                       <LinkContainer to="/profile">
-                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {userInfo ? "User Profile" : "Employee Profile"}
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
                         className="dropdown-item"
                         to="#signout"
-                        onClick={signoutHandler}
+                        onClick={userInfo ? signoutHandler : empSignoutHandler}
                       >
-                        {" "}
-                        Sign Out{" "}
+                        Sign Out
                       </Link>
                     </NavDropdown>
                   ) : (
-                    <NavDropdown
-                      className="header-link"
-                      title={`Hello, sign in`}
-                    >
+                    <NavDropdown className="header-link" title="Hello, sign in">
                       <LinkContainer to="/signin">
                         <NavDropdown.Item>Sign In</NavDropdown.Item>
                       </LinkContainer>

@@ -16,9 +16,7 @@ userRouter.post(
           _id: user._id,
           name: user.name,
           email: user.email,
-          isAdmin: user.isAdmin,
           token: generateToken(user),
-          icon: user.icon,
         });
         return;
       }
@@ -34,7 +32,6 @@ userRouter.post(
       name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password),
-      icon: req.body.icon || "/images/pin-map.png",
     });
 
     res.send({
@@ -42,7 +39,6 @@ userRouter.post(
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      icon: user.icon,
       token: generateToken(user),
     });
   })
