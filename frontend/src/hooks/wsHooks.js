@@ -1,27 +1,37 @@
 import { useEffect, useState } from 'react';
 
-const useWebSocket = (setLocationData) => {
-  useEffect(() => {
-    const socket = new WebSocket("ws://localhost:3000");
+const useSocket = (setLocationData, empInfo) => {
+  const [socket, setSocket] = useState(null);
 
-    socket.onopen = () => {
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:3000");
+    setSocket(ws);
+
+    ws.onopen = () => {
       console.log("Connected to WebSocket");
+
+      // Send employee info after the connection is established
+      if (empInfo) {
+        ws.send(JSON.stringify({ type: "employee-connected", empInfo }));
+      }
     };
 
-    socket.onmessage = (event) => {
+    ws.onmessage = (event) => {
       const locationData = JSON.parse(event.data);
-      setLocationData(prev => ({
+      setLocationData((prev) => ({
         ...prev,
-        [locationData.id]: { latitude: locationData.latitude, longitude: locationData.longitude }
+        [locationData.id]: { latitude: locationData.latitude, longitude: locationData.longitude, type: locationData.type },
       }));
     };
 
-    socket.onclose = () => {
+    ws.onclose = () => {
       console.log("WebSocket disconnected");
     };
 
-    return () => socket.close();
-  }, [setLocationData]);
+    return () => ws.close();
+  }, [setLocationData, empInfo]);
+
+  return socket;
 };
 
-export default useWebSocket;
+export default useSocket;

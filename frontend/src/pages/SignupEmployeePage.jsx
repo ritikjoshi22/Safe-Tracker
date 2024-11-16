@@ -1,25 +1,25 @@
-import { useContext, useEffect, useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
-import { Helmet } from 'react-helmet-async';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import { Button, Container, Form } from "react-bootstrap";
+import { Helmet } from "react-helmet-async";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Store } from '../Store';
-import { getError } from '../utils';
-import { useAddEmployeeMutation } from '../hooks/employeeHooks';
+import { Store } from "../Store";
+import { getError } from "../utils";
+import { useAddEmployeeMutation } from "../hooks/employeeHooks";
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get('redirect');
-  const redirect = redirectInUrl ? redirectInUrl : '/';
+  const redirectInUrl = new URLSearchParams(search).get("redirect");
+  const redirect = redirectInUrl ? redirectInUrl : "/";
 
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [serviceType, setServiceType] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [serviceType, setServiceType] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const { state, dispatch } = useContext(Store);
   const { empInfo } = state;
@@ -29,7 +29,7 @@ export default function SignupPage() {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
     try {
@@ -41,10 +41,10 @@ export default function SignupPage() {
         serviceType,
         password,
       });
-      dispatch({ type: 'EMPLOYEE_SIGNIN', payload: data });
-      localStorage.setItem('empInfo', JSON.stringify(data));
-      toast.success("Signup Successful!")
-      navigate(redirect || '/');
+      dispatch({ type: "EMPLOYEE_SIGNIN", payload: data });
+      localStorage.setItem("empInfo", JSON.stringify(data));
+      toast.success("Signup Successful!");
+      navigate(redirect || "/");
     } catch (err) {
       toast.error(getError(err));
     }
@@ -100,13 +100,13 @@ export default function SignupPage() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              required
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
 
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>
@@ -128,12 +128,12 @@ export default function SignupPage() {
 
         <div className="mb-3">
           <Button type="submit" disabled={isPending}>
-            {isPending ? 'Signing up...' : 'Sign Up'}
+            {isPending ? "Signing up..." : "Sign Up"}
           </Button>
         </div>
 
         <div className="mb-3">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
         </div>
       </Form>
